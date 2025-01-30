@@ -56,10 +56,45 @@ class Tree {
 
     }
 
-    delete(value) {
+    deleteItem(value) {
+
+    }
+
+    find(value) {
+
+    }
+
+    levelOrder(callback) {
+
+    }
+
+    inOrder(callback) {
+
+    }
+
+    preOrder(callback) {
+
+    }
+
+    postOrder(callback) {
+
+    }
+
+    height(node) {
+
+    }
+
+    depth(node) {
 
     }
      
+    isBalanced() {
+
+    }
+
+    rebalance() {
+        
+    }
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
