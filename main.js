@@ -34,6 +34,24 @@ class Tree {
         }
     }
 
+    buildTree(array) {
+        array = [...new Set(this.mergeSort(array))];
+        console.log(array);
+        return this.createBST(array, 0, array.length - 1);
+    }
+
+    createBST(array, start, end) {
+        if (start > end) {
+            return null;
+        }
+
+        let mid = start + Math.floor((end - start) / 2);
+        const root = new Node(array[mid]);
+        root.leftChild = this.createBST(array, start, mid - 1);
+        root.rightChild = this.createBST(array, mid + 1, end);
+        return root;
+    }
+
     insert(value) {
 
     }
