@@ -153,6 +153,36 @@ class Tree {
         }
 
     }
+
+    inOrder(rootNode = this.root, callback) {
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        if (rootNode === null) return;
+        this.inOrder(rootNode.leftChild, callback);
+        callback(rootNode);
+        this.inOrder(rootNode.rightChild, callback);
+    }
+
+    preOrder(rootNode = this.root, callback) {
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        if (rootNode === null) return;
+        callback(rootNode);
+        this.preOrder(rootNode.leftChild, callback);
+        this.preOrder(rootNode.rightChild, callback);
+    }
+
+    postOrder(rootNode = this.root, callback) {
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        if (rootNode === null) return;
+        this.postOrder(rootNode.leftChild, callback);
+        this.postOrder(rootNode.rightChild, callback);
+        callback(rootNode);
+    }
      
     isBalanced() {
 
