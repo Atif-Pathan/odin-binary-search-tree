@@ -133,6 +133,26 @@ class Tree {
             return rootNode;
         }
     }
+
+    levelOrder(callback) {
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        // init queue with the root node
+        let q = [this.root];
+        while (q.length) {
+            // deque first element
+            let node = q.shift();
+            callback(node); // adds the node value to an array
+            if (node.leftChild) {
+                q.push(node.leftChild);
+            }
+            if (node.rightChild) {
+                q.push(node.rightChild);
+            }
+        }
+
+    }
      
     isBalanced() {
 
