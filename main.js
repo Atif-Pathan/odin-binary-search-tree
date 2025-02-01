@@ -183,6 +183,35 @@ class Tree {
         this.postOrder(rootNode.rightChild, callback);
         callback(rootNode);
     }
+
+    height(node) {
+        if (node === null) {
+            // node to find doesnt exist
+            return -1;
+        }
+        let leftH = this.height(node.leftChild);
+        let rightH = this.height(node.rightChild);
+        return 1 + Math.max(leftH, rightH);
+    }
+
+    depth(nodeToFind, current = this.root, count = 0) {
+        if (current === null || nodeToFind === null) {
+            // node to find doesnt exist
+            return -1;
+        }
+
+        if (current === nodeToFind) {
+            return count;
+        }
+
+        if (nodeToFind.data < current.data) {
+            return this.depth(nodeToFind, current.leftChild, count + 1);
+        } 
+
+        if (nodeToFind.data > current.data) {
+            return this.depth(nodeToFind, current.rightChild, count + 1);
+        } 
+    }
      
     isBalanced() {
 
