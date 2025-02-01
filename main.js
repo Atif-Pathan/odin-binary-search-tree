@@ -116,6 +116,23 @@ class Tree {
         }
         return rootNode;
     }
+
+    find(rootNode = this.root, value) {
+        if (rootNode === null) {
+            return null;
+            // not found
+        }
+        if (value < rootNode.data) {
+            // go left
+            return this.find(rootNode.leftChild, value);
+        } else if (value > rootNode.data) {
+            // go right
+            return this.find(rootNode.rightChild, value);
+        } else {
+            // found the node, so return that node
+            return rootNode;
+        }
+    }
      
     isBalanced() {
 
