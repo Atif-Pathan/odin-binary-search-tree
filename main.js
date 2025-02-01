@@ -36,7 +36,6 @@ class Tree {
 
     buildTree(array) {
         array = [...new Set(this.mergeSort(array))];
-        console.log(array);
         return this.createBST(array, 0, array.length - 1);
     }
 
@@ -212,13 +211,44 @@ class Tree {
             return this.depth(nodeToFind, current.rightChild, count + 1);
         } 
     }
+
+    checkBalance(rootNode = this.root) {
+        if (rootNode === null) {
+            // empty tree has height 0
+            return 0;
+        }
+
+        let leftTreeHeight = this.checkBalance(rootNode.leftChild); 
+        if (leftTreeHeight === -1) {
+            return -1;
+        }
+        let rightTreeHeight = this.checkBalance(rootNode.rightChild);
+        if (rightTreeHeight === -1) {
+            return -1;
+        }
+
+        const absHeight = Math.abs(leftTreeHeight - rightTreeHeight);
+        if (absHeight > 1) {
+            return -1
+        } else {
+            return 1 + Math.max(leftTreeHeight, rightTreeHeight);
+        }
+    }
      
     isBalanced() {
-
+        if (this.checkBalance(this.root) === -1) {
+            return false;
+        }
+        return true;
     }
 
     rebalance() {
-
+        if (!this.isBalanced()) {
+            console.log("rebalancing..");   
+            let newTreeArray = []
+            this.inOrder(this.root, node => newTreeArray.push(node.data));
+            this.root = this.buildTree(newTreeArray);
+        }  
     }
 }
 
@@ -235,15 +265,22 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
  
-const t = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const t = new Tree([10, 5, 15, 2, 7, 12, 20]);
 prettyPrint(t.root);
 console.log("\n----------------------------------------------------\n");
 
+t.insert(t.root, 1);
 t.insert(t.root, 0);
+t.insert(t.root, -1);
 prettyPrint(t.root);
+console.log("\n----------------------------------------------------\n");
 
-const r = t.deleteItem(t.root, 8);
+console.log(t.isBalanced());
+t.rebalance();
+
 prettyPrint(t.root);
+console.log("\n----------------------------------------------------\n");
+
 
 // let levelOrderArr = []
 // t.levelOrder(node => levelOrderArr.push(node.data));
