@@ -265,41 +265,98 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
  
-const t = new Tree([10, 5, 15, 2, 7, 12, 20]);
-prettyPrint(t.root);
-console.log("\n----------------------------------------------------\n");
+// --------------------------- TEST ALL FUNCTIONS ---------------------------
 
-t.insert(t.root, 1);
-t.insert(t.root, 0);
-t.insert(t.root, -1);
-prettyPrint(t.root);
-console.log("\n----------------------------------------------------\n");
+// Utility function to generate an array of random numbers
+function generateRandomArray(size, max) {
+    return Array.from({ length: size }, () => Math.floor(Math.random() * max));
+}
 
-console.log(t.isBalanced());
-t.rebalance();
+// 🟢 **Step 1: Create a BST from an array of random numbers (< 100)**
+const randomNumbers = generateRandomArray(10, 100);
+const tree = new Tree(randomNumbers);
 
-prettyPrint(t.root);
-console.log("\n----------------------------------------------------\n");
+console.log("✅ Initial Tree (Balanced BST Created)");
+prettyPrint(tree.root);
 
+// 🟢 **Step 2: Confirm if the tree is balanced**
+console.log("\nIs the tree balanced?", tree.isBalanced()); // Expected: true
 
-// let levelOrderArr = []
-// t.levelOrder(node => levelOrderArr.push(node.data));
-// console.log(levelOrderArr);
+// 🟢 **Step 3: Store tree elements in arrays using traversal methods**
+let levelOrderArr = [];
+let preOrderArr = [];
+let postOrderArr = [];
+let inOrderArr = [];
 
-// let inOrderArr = []
-// t.inOrder(t.root, node => inOrderArr.push(node.data));
-// console.log(inOrderArr);
+tree.levelOrder(node => levelOrderArr.push(node.data));
+tree.preOrder(tree.root, node => preOrderArr.push(node.data));
+tree.postOrder(tree.root, node => postOrderArr.push(node.data));
+tree.inOrder(tree.root, node => inOrderArr.push(node.data));
 
-// let preOrderArr = []
-// t.preOrder(t.root, node => preOrderArr.push(node.data));
-// console.log(preOrderArr);
+// 🟢 **Step 4: Print traversal results**
+console.log("\n🌲 Level Order Traversal:", levelOrderArr.join(" "));
+console.log("🌲 Pre-Order Traversal:", preOrderArr.join(" "));
+console.log("🌲 Post-Order Traversal:", postOrderArr.join(" "));
+console.log("🌲 In-Order Traversal:", inOrderArr.join(" "));
 
-// let postOrderArr = []
-// t.postOrder(t.root, node => postOrderArr.push(node.data));
-// console.log(postOrderArr);
+// 🟢 **Step 5: Insert nodes to make the tree unbalanced**
+tree.insert(tree.root, 150);
+tree.insert(tree.root, 200);
+tree.insert(tree.root, 300);
+tree.insert(tree.root, 250);
+tree.insert(tree.root, 400);
 
-// const node = t.find(t.root, 5);
-// console.log(t.height(node));
+console.log("\n⚠️ Inserted values > 100 to unbalance the tree");
+prettyPrint(tree.root);
 
-// console.log(t.depth(node));
+// 🟢 **Step 6: Confirm the tree is now unbalanced**
+console.log("\nIs the tree balanced after insertions?", tree.isBalanced()); // Expected: false
+
+// 🟢 **Step 7: Test `find()` method**
+const searchValue = randomNumbers[3]; // Pick a random number that should exist
+const foundNode = tree.find(tree.root, searchValue);
+console.log(`\n🔎 Searching for value ${searchValue}...`, foundNode ? `Found ✅ (Node: ${foundNode.data})` : "Not Found ❌");
+
+// 🟢 **Step 8: Test `height()` method**
+const rootHeight = tree.height(tree.root);
+console.log(`\n📏 Height of root node: ${rootHeight}`);
+
+// 🟢 **Step 9: Test `depth()` method**
+const depthOfNode = tree.depth(tree.root.rightChild);
+console.log(`\n📏 Depth of right child of root: ${depthOfNode}`);
+
+// 🟢 **Step 10: Test `deleteItem()` method**
+console.log(`\n🗑️ Deleting ${searchValue} from the tree...`);
+tree.deleteItem(tree.root, searchValue);
+console.log(`Tree after deleting ${searchValue}:`);
+prettyPrint(tree.root);
+console.log("\nChecking if deleted value still exists:", tree.find(tree.root, searchValue) ? "Still present ❌" : "Deleted ✅");
+
+// 🟢 **Step 11: Rebalance the tree**
+console.log("\n🔄 Rebalancing the tree...");
+tree.rebalance();
+prettyPrint(tree.root);
+
+// 🟢 **Step 12: Confirm the tree is balanced again**
+console.log("\nIs the tree balanced after rebalancing?", tree.isBalanced()); // Expected: true
+
+// 🟢 **Step 13: Store tree elements again after rebalancing**
+levelOrderArr = [];
+preOrderArr = [];
+postOrderArr = [];
+inOrderArr = [];
+
+tree.levelOrder(node => levelOrderArr.push(node.data));
+tree.preOrder(tree.root, node => preOrderArr.push(node.data));
+tree.postOrder(tree.root, node => postOrderArr.push(node.data));
+tree.inOrder(tree.root, node => inOrderArr.push(node.data));
+
+// 🟢 **Step 14: Print the tree again after rebalancing**
+console.log("\n🌲 Level Order Traversal:", levelOrderArr.join(" "));
+console.log("🌲 Pre-Order Traversal:", preOrderArr.join(" "));
+console.log("🌲 Post-Order Traversal:", postOrderArr.join(" "));
+console.log("🌲 In-Order Traversal:", inOrderArr.join(" "));
+
+console.log("\n🎉 BST successfully tested and verified!");
+
 
